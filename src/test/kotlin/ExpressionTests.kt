@@ -1,32 +1,29 @@
 import org.junit.Test
-import kotlin.test.assertFailsWith
+import kotlin.test.assertEquals
 
 internal class ExpressionTests {
     @Test
-    fun incorrectParenthesesTest() {
-        assertFailsWith<InvalidGrammarException> {
-            parseAndCalculateExpression(CalcGrammarParserVisitor(), "((4);")
-        }
+    fun singleNumTest() {
+        assertEquals("4 = 4;", parseAndCalculateExpression(CalcGrammarParserVisitor(), "4;"))
     }
 
     @Test
-    fun extraSignTest() {
-        assertFailsWith<InvalidGrammarException> {
-            parseAndCalculateExpression(CalcGrammarParserVisitor(), "4+4+;")
-        }
+    fun sumTest() {
+        assertEquals("4 + 4 = 8;", parseAndCalculateExpression(CalcGrammarParserVisitor(), "4 + 4;"))
     }
 
     @Test
-    fun nothingTest() {
-        assertFailsWith<InvalidGrammarException> {
-            parseAndCalculateExpression(CalcGrammarParserVisitor(), ";")
-        }
+    fun prodTest() {
+        assertEquals("4 * 4 = 16;", parseAndCalculateExpression(CalcGrammarParserVisitor(), "4 * 4;"))
     }
 
     @Test
-    fun expressionWithoutSemicolon() {
-        assertFailsWith<InvalidGrammarException> {
-            parseAndCalculateExpression(CalcGrammarParserVisitor(), "(5 + 4) * 3")
-        }
+    fun sumAndProdTest() {
+        assertEquals("4 + 4 * 3 = 16;", parseAndCalculateExpression(CalcGrammarParserVisitor(), "4 + 4 * 3;"))
+    }
+
+    @Test
+    fun parenthesesAndSumAndProdTest() {
+        assertEquals("(4 + 4) * 3 = 24;", parseAndCalculateExpression(CalcGrammarParserVisitor(), "(4 + 4) * 3;"))
     }
 }
