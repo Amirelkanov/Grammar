@@ -30,8 +30,8 @@ class CalcGrammarParserVisitor : CalcGrammarBaseVisitor<Int?>() {
 
     override fun visitParentheses(ctx: ParenthesesContext) = visit(ctx.expression())
 
-    override fun visitId(ctx: CalcGrammarParser.IdContext?): Int? {
-        val id = ctx?.ID()?.text
+    override fun visitId(ctx: CalcGrammarParser.IdContext): Int? {
+        val id = ctx.ID()?.text
         return if (memory.containsKey(id)) memory[id] else 0
     }
 }
